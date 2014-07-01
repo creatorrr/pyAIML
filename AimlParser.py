@@ -160,7 +160,7 @@ class AimlHandler(ContentHandler):
 			# <topic> tags are only legal in the InsideAiml state, and only
 			# if we're not already inside a topic.
 			if (self._state != self._STATE_InsideAiml) or self._insideTopic:
-				raise AimlParserError, "Unexpected <topic> tag", self._location()
+				raise AimlParserError, "Unexpected <topic> tag"+self._location()
 			try: self._currentTopic = unicode(attr['name'])
 			except KeyError:
 				raise AimlParserError, "Required \"name\" attribute missing in <topic> element "+self._location()
