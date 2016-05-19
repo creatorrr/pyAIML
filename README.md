@@ -1,7 +1,7 @@
 pyAIML
 ======
 
-**NOTE: This repo has been cloned from sourceforge. Credits follow.**
+**NOTE: This repo has been cloned from sourceforge & GitHub pyAIML. Credits follow.**
 
 PyAIML -- The Python AIML Interpreter
 
