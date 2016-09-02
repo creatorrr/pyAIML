@@ -153,4 +153,34 @@ defaultNormal = {
     "it's": "it is",
     "it'd": "it would",
     "it'll": "it will",
+
+    "how're": "how are",
+
+    #Positive
+    "great": "good",
+    "brilliant": "good",
+    "amazing": "good",
+    "awesome": "good",
+    "alright": "good",
+
+    #Yes
+    "yea": "yes",
+    "yeah": "yes",
+    "yep": "yes",
+    "yup": "yes",
+
+    #No
+    "nah": "no",
+    "nope": "no",
+    "na": "no",
+
+    #Greet
+    "hi": "hello",
+    "hiya": "hello",
+    "hey": "hello",
+    "good morning": "hello",
+    "good afternoon": "hello",
+    "good evening": "hello",
+    "sup": "hello",
+
 }
