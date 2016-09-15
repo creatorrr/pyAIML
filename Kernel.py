@@ -132,7 +132,7 @@ class Kernel:
     def numCategories(self):
         """Return the number of categories the Kernel has learned."""
         # there's a one-to-one mapping between templates and categories
-        return self._brain.numTemplates()
+        return self._brain.num_templates()
 
     def resetBrain(self):
         """Reset the brain to its initial state.
@@ -157,7 +157,7 @@ class Kernel:
         self._brain.restore(filename)
         if self._verboseMode:
             end = time.clock() - start
-            print "done (%d categories in %.2f seconds)" % (self._brain.numTemplates(), end)
+            print "done (%d categories in %.2f seconds)" % (self._brain.num_templates(), end)
 
     def saveBrain(self, filename):
         """Dump the contents of the bot's brain to a file on disk."""
@@ -209,7 +209,7 @@ class Kernel:
         # Clumsy hack: if updating the bot name, we must update the
         # name in the brain as well
         if name == "name":
-            self._brain.setBotName(self.getBotPredicate("name"))
+            self._brain.set_bot_name(self.getBotPredicate("name"))
 
     def setTextEncoding(self, encoding):
         """Set the text encoding used when loading AIML files (Latin-1, UTF-8, etc.)."""
