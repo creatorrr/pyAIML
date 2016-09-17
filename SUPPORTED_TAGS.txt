@@ -90,5 +90,5 @@ with this:
 		<li value="yes">you are allowed</li>
 		<li>you are not allowed</li>
 	</condition>
-Then, use the Kernel.setPredicate() call to set the "secure" predicate to
+Then, use the Kernel.set_predicate() call to set the "secure" predicate to
 "yes" for any session that you wish to be secure.

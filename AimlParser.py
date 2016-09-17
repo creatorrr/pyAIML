@@ -149,6 +149,7 @@ class AimlHandler(ContentHandler):
                 self._version = "1.0"
             self._forwardCompatibleMode = (self._version != "1.0.1")
             self._pushWhitespaceBehavior(attr)
+        # Not a comments from @MissMaximass
         # Not sure about this namespace business yet...
         # try:
         #	self._namespace = attr["xmlns"]

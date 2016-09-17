@@ -99,5 +99,12 @@
     </template>
 </category>
 
+<category>
+    <pattern>*</pattern>
+    <template>
+        I dunno *shrug*
+    </template>
+</category>
+
 
 </aiml>
