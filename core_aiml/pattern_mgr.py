@@ -166,15 +166,15 @@ class PatternMgr:
         """
         # Mutilate the input.  Remove all punctuation and convert the
         # text to all caps.
-        input = string.upper(pattern)
+        input = pattern.upper()
         input = re.sub(self._puncStripRE, " ", input)
         input = re.sub(self._whitespaceRE, " ", input)
         if that.strip() == u"": that = u"ULTRABOGUSDUMMYTHAT"  # 'that' must never be empty
-        that_input = string.upper(that)
+        that_input = that.upper()
         that_input = re.sub(self._puncStripRE, " ", that_input)
         that_input = re.sub(self._whitespaceRE, " ", that_input)
         if topic.strip() == u"": topic = u"ULTRABOGUSDUMMYTOPIC"  # 'topic' must never be empty
-        topic_input = string.upper(topic)
+        topic_input = topic.upper()
         topic_input = re.sub(self._puncStripRE, " ", topic_input)
         topic_input = re.sub(self._whitespaceRE, " ", topic_input)
 
@@ -245,11 +245,11 @@ class PatternMgr:
         if foundTheRightStar:
             # print string.join(pattern.split()[start:end+1])
             if starType == 'star':
-                return string.join(pattern.split()[start:end + 1])
+                return pattern.join(pattern.split()[start:end + 1])
             elif starType == 'thatstar':
-                return string.join(that.split()[start:end + 1])
+                return that.join(that.split()[start:end + 1])
             elif starType == 'topicstar':
-                return string.join(topic.split()[start:end + 1])
+                return topic.join(topic.split()[start:end + 1])
         else:
             return ""
 
