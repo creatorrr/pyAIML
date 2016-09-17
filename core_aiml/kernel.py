@@ -162,7 +162,7 @@ class Kernel:
         self._brain.restore(filename)
         if self._verbose_mode:
             end = time.clock() - start
-            print("done (%d categories in {0} seconds)".format((self._brain.num_templates(), end)))
+            print("done ({0} categories in {1} seconds)".format(self._brain.num_templates(), end))
 
     def save_brain(self, filename):
         """Dump the contents of the bot's brain to a file on disk."""
@@ -379,7 +379,7 @@ class Kernel:
         input_stack = self.get_predicate(self._input_stack, sessionID)
         if len(input_stack) > self._max_recursion_depth:
             if self._verbose_mode:
-                sys.stderr.write("WARNING: maximum recursion depth exceeded (input='%s')".format(input))
+                sys.stderr.write("WARNING: maximum recursion depth exceeded (input='{0}')".format(input))
             return ""
 
         # push the input onto the input stack
@@ -408,8 +408,7 @@ class Kernel:
         elem = self._brain.match(subbed_input, subbed_that, subbed_topic)
         if elem is None:
             if self._verbose_mode:
-                err = "WARNING: No match found for input: %s\n" % input.encode(self._textEncoding)
-                sys.stderr.write(err)
+                sys.stderr.write("WARNING: No match found for input: {0}\n".format(input))
         else:
             # Process the element into a response string.
             response += self._process_element(elem, sessionID).strip()
@@ -440,7 +439,7 @@ class Kernel:
             # Oops -- there's no handler function for this element
             # type!
             if self._verbose_mode:
-                err = "WARNING: No handler found for <%s> element\n".format(elem[0])
+                err = "WARNING: No handler found for <{0}> element\n".format(elem[0])
                 sys.stderr.write(err)
             return ""
         return handler_func(elem, sessionID)
@@ -933,7 +932,7 @@ class Kernel:
             out = os.popen(command)
         except RuntimeError as msg:
             if self._verbose_mode:
-                err = "WARNING: RuntimeError while processing \"system\" element:\n%s\n".format(msg)
+                err = "WARNING: RuntimeError while processing \"system\" element:\n{0}\n".format(msg)
                 sys.stderr.write(err)
             return "There was an error while computing my response.  Please inform my botmaster."
         time.sleep(0.01)  # I'm told this works around a potential IOError exception.
@@ -1164,7 +1163,7 @@ if __name__ == "__main__":
     succeeds.  So long as the response looks like a date/time string,
     there's nothing to worry about.
     """
-    if not _testTag(k, 'date', 'test date', ["The date is %s" % time.asctime()]):
+    if not _testTag(k, 'date', 'test date', ["The date is {0}".format(time.asctime())]):
         print(date_warning)
 
     _testTag(k, 'formal', 'test formal', ["Formal Test Passed"])
@@ -1181,7 +1180,7 @@ if __name__ == "__main__":
     _testTag(k, 'random', 'test random', ["response #1", "response #2", "response #3"])
     _testTag(k, 'random empty', 'test random empty', ["Nothing here!"])
     _testTag(k, 'sentence', "test sentence", ["My first letter should be capitalized."])
-    _testTag(k, 'size', "test size", ["I've learned %d categories" % k.num_categories()])
+    _testTag(k, 'size', "test size", ["I've learned {0} categories".format(k.num_categories())])
     _testTag(k, 'sr', "test sr test srai", ["srai results: srai test passed"])
     _testTag(k, 'sr nested', "test nested sr test srai", ["srai results: srai test passed"])
     _testTag(k, 'srai', "test srai", ["srai test passed"])
@@ -1207,7 +1206,7 @@ if __name__ == "__main__":
     _testTag(k, 'topicstar test #2', 'test topicstar multiple', ["Both Soylents Ham and Cheese are made of people!"])
     _testTag(k, 'unicode support', u"郧上好", [u"Hey, you speak Chinese! 郧上好"])
     _testTag(k, 'uppercase', 'test uppercase', ["The Last Word Should Be UPPERCASE"])
-    _testTag(k, 'version', 'test version', ["PyAIML is version %s" % k.version()])
+    _testTag(k, 'version', 'test version', ["PyAIML is version {0}".format(k.version())])
     _testTag(k, 'whitespace preservation', 'test whitespace', ["Extra   Spaces\n   Rule!   (but not in here!)    But   Here   They   Do!"])
 
     # Report test results

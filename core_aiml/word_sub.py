@@ -33,9 +33,9 @@ class WordSub(dict):
     def _word_to_regex(word):
         """Convert a word to a regex object which matches the word."""
         if word != "" and word[0].isalpha() and word[-1].isalpha():
-            return "\\b%s\\b" % re.escape(word)
+            return "\\b{0}\\b".format(re.escape(word))
         else:
-            return r"\b%s\b" % re.escape(word)
+            return r"\b{0}\b".format(re.escape(word))
 
     def _update_regex(self):
         """Build re object based on the keys of the current

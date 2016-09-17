@@ -127,7 +127,7 @@ class AimlHandler(ContentHandler):
             self._start_element(name, attr)
         except AimlParserError as msg:
             # Print the error message
-            sys.stderr.write("PARSE ERROR: %s\n" % msg)
+            sys.stderr.write("PARSE ERROR: {0}\n".format(msg))
 
             self._num_parse_errors += 1  # increment error count
             # In case of a parse error, if we're inside a category, skip it.
@@ -353,7 +353,7 @@ class AimlHandler(ContentHandler):
             self._end_element(name)
         except AimlParserError as msg:
             # Print the message
-            sys.stderr.write("PARSE ERROR: %s\n" % msg)
+            sys.stderr.write("PARSE ERROR: {0}\n".format(msg))
             self._num_parse_errors += 1  # increment error count
             # In case of a parse error, if we're inside a category, skip it.
             if self._state >= self._STATE_inside_category:
@@ -407,11 +407,11 @@ class AimlHandler(ContentHandler):
         elif self._state == self._STATE_inside_pattern:
             # Certain tags are allowed inside <pattern> elements.
             if name not in ["bot"]:
-                raise AimlParserError(("Unexpected </%s> tag " % name) + self._location())
+                raise AimlParserError(("Unexpected </{0}> tag ".format(name)) + self._location())
         elif self._state == self._STATE_inside_that:
             # Certain tags are allowed inside <that> elements.
             if name not in ["bot"]:
-                raise AimlParserError(("Unexpected </%s> tag " % name) + self._location())
+                raise AimlParserError(("Unexpected </{0}> tag ".format(name)) + self._location())
         elif self._state == self._STATE_inside_template:
             # End of an element inside the current template.  Append the
             # element at the top of the stack onto the one beneath it.
@@ -424,7 +424,7 @@ class AimlHandler(ContentHandler):
                 self._found_default_li_stack.pop()
         else:
             # Unexpected closing tag
-            raise AimlParserError(("Unexpected </%s> tag " % name) + self._location())
+            raise AimlParserError(("Unexpected </{0}> tag ".format(name)) + self._location())
 
     # A dictionary containing a validation information for each AIML
     # element. The keys are the names of the elements.  The values are a
@@ -488,7 +488,8 @@ class AimlHandler(ContentHandler):
             if a[0:4] == "xml:":
                 continue  # attributes in the "xml" namespace can appear anywhere
             if a not in optional and not self._forward_compatible_mode:
-                raise AimlParserError(("Unexpected \"%s\" attribute in <%s> element " % (a, name)) + self._location())
+                raise AimlParserError(("Unexpected \"{0}\" attribute in <{1}> element "
+                                       .format(a, name)) + self._location())
 
         # special-case: several tags contain an optional "index" attribute.
         # This attribute's value must be a positive integer.
@@ -499,9 +500,11 @@ class AimlHandler(ContentHandler):
                     try:
                         temp = int(v)
                     except:
-                        raise AimlParserError(("Bad type for \"%s\" attribute (expected integer, found \"%s\") ".format(k, v)) + self._location())
+                        raise AimlParserError(("Bad type for \"{0}\" attribute (expected integer, found \"{1}\") "
+                                               .format(k, v)) + self._location())
                     if temp < 1:
-                        raise AimlParserError(("\"%s\" attribute must have non-negative value " % (k)) + self._location())
+                        raise AimlParserError(("\"{0}\" attribute must have non-negative value "
+                                               .format(k)) + self._location())
 
         # See whether the containing element is permitted to contain
         # subelements. If not, this element is invalid no matter what it is.
@@ -511,24 +514,26 @@ class AimlHandler(ContentHandler):
         except IndexError:
             # If the stack is empty, no parent is present.  This should never
             # happen.
-            raise AimlParserError(("Element stack is empty while validating <%s> " % name) + self._location())
+            raise AimlParserError(("Element stack is empty while validating <{0}> ".format(name)) + self._location())
         required, optional, can_be_parent = self._valid_info[parent]
         non_block_style_condition = (
             parent == "condition" and not (parent_attr.get("name", False) and parent_attr.get("value", False)))
         if not can_be_parent:
-            raise AimlParserError(("<%s> elements cannot have any contents " % parent) + self._location())
+            raise AimlParserError(("<{0}> elements cannot have any contents ".format(parent)) + self._location())
         # Special-case test if the parent element is <condition> (the
         # non-block-style variant) or <random>: these elements can only
         # contain <li> subelements.
         elif (parent == "random" or non_block_style_condition) and name != "li":
-            raise AimlParserError(("<%s> elements can only contain <li> subelements ".format(parent) + self._location()))
+            raise AimlParserError(("<{0}> elements can only contain <li> subelements "
+                                   .format(parent)) + self._location())
         # Special-case test for <li> elements, which can only be contained
         # by non-block-style <condition> and <random> elements, and whose
         # required attributes are dependent upon which attributes are
         # present in the <condition> parent.
         elif name == "li":
             if not (parent == "random" or non_block_style_condition):
-                raise AimlParserError(("Unexpected <li> element contained by <%s> element ".format(parent)) + self._location())
+                raise AimlParserError(("Unexpected <li> element contained by <{0}> element "
+                                       .format(parent)) + self._location())
             if non_block_style_condition:
                 if parent_attr.get("name", False):
                     # Single-predicate condition.  Each <li> element except the
@@ -537,7 +542,8 @@ class AimlHandler(ContentHandler):
                         # This could be the default <li> element for this <condition>,
                         # unless we've already found one.
                         if self._found_default_li_stack[-1]:
-                            raise AimlParserError("Unexpected default <li> element inside <condition> " + self._location())
+                            raise AimlParserError(
+                                "Unexpected default <li> element inside <condition> " + self._location())
                         else:
                             self._found_default_li_stack[-1] = True
                     elif len(attr) == 1 and attr.get("value", False):
@@ -551,7 +557,8 @@ class AimlHandler(ContentHandler):
                         # This could be the default <li> element for this <condition>,
                         # unless we've already found one.
                         if self._found_default_li_stack[-1]:
-                            raise AimlParserError("Unexpected default <li> element inside <condition> " + self._location())
+                            raise AimlParserError(
+                                "Unexpected default <li> element inside <condition> " + self._location())
                         else:
                             self._found_default_li_stack[-1] = True
                     elif len(attr) == 2 and attr.get("value", False) and attr.get("name", False):
