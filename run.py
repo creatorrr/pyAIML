@@ -1,5 +1,10 @@
 from core_aiml.kernel import Kernel
 
+try:
+    input = raw_input
+except NameError:
+    pass
+
 # The Kernel object is the public interface to
 # the AIML interpreter.
 k = Kernel()

@@ -4,6 +4,10 @@ import xml.sax
 import xml.sax.handler
 import sys
 
+try:
+    str = unicode
+except NameError:
+    pass
 
 class AimlParserError(Exception):
     pass
