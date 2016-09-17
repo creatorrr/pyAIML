@@ -5,11 +5,10 @@
 import marshal
 import pprint
 import re
-import string
-
 
 
 class PatternMgr:
+
     # special dictionary keys
     _UNDERSCORE = 0
     _STAR = 1
@@ -21,7 +20,7 @@ class PatternMgr:
     def __init__(self):
         self._root = {}
         self._template_count = 0
-        self._bot_name = u"Nameless"
+        self._bot_name = "Nameless"
         punctuation = "\"`~!@#$%^&*()-_=+[{]}\|;:',<.>/?"
         self._puncStripRE = re.compile("[" + re.escape(punctuation) + "]")
         self._whitespaceRE = re.compile("\s+", re.LOCALE | re.UNICODE)
@@ -53,9 +52,8 @@ class PatternMgr:
             marshal.dump(self._bot_name, out_file)
             marshal.dump(self._root, out_file)
             out_file.close()
-        except Exception as e:
-            print("Error saving PatternMgr to file {0}:".format(filename))
-            raise Exception
+        except Exception:
+            raise Exception("Error saving PatternMgr to file {0}:".format(filename))
 
     def restore(self, filename):
         """Restore a previously save()d collection of patterns."""
@@ -65,9 +63,8 @@ class PatternMgr:
             self._bot_name = marshal.load(inFile)
             self._root = marshal.load(inFile)
             inFile.close()
-        except Exception as e:
-            print("Error restoring PatternMgr from file {0}:".format(filename))
-            raise Exception
+        except Exception:
+            raise Exception("Error restoring PatternMgr from file {0}:".format(filename))
 
     def add(self, pattern, that, topic, template):
         """Add a [pattern/that/topic] tuple and its corresponding template
@@ -82,11 +79,11 @@ class PatternMgr:
         node = self._root
         for word in pattern.split():
             key = word
-            if key == u"_":
+            if key == "_":
                 key = self._UNDERSCORE
-            elif key == u"*":
+            elif key == "*":
                 key = self._STAR
-            elif key == u"BOT_NAME":
+            elif key == "BOT_NAME":
                 key = self._BOT_NAME
             if not node.get(key):
                 node[key] = {}
@@ -99,9 +96,9 @@ class PatternMgr:
             node = node[self._THAT]
             for word in that.split():
                 key = word
-                if key == u"_":
+                if key == "_":
                     key = self._UNDERSCORE
-                elif key == u"*":
+                elif key == "*":
                     key = self._STAR
                 if not node.get(key):
                     node[key] = {}
@@ -114,14 +111,13 @@ class PatternMgr:
             node = node[self._TOPIC]
             for word in topic.split():
                 key = word
-                if key == u"_":
+                if key == "_":
                     key = self._UNDERSCORE
-                elif key == u"*":
+                elif key == "*":
                     key = self._STAR
                 if not node.get(key):
                     node[key] = {}
                 node = node[key]
-
 
         # add the template.
         if not node.get(self._TEMPLATE):
@@ -142,11 +138,13 @@ class PatternMgr:
         # text to all caps.
         input = pattern.upper()
         input = re.sub(self._puncStripRE, " ", input)
-        if that.strip() == u"": that = u"ULTRABOGUSDUMMYTHAT"  # 'that' must never be empty
+        if that.strip() == "":
+            that = "ULTRABOGUSDUMMYTHAT"  # 'that' must never be empty
         that_input = that.upper()
         that_input = re.sub(self._puncStripRE, " ", that_input)
         that_input = re.sub(self._whitespaceRE, " ", that_input)
-        if topic.strip() == u"": topic = u"ULTRABOGUSDUMMYTOPIC"  # 'topic' must never be empty
+        if topic.strip() == "":
+            topic = "ULTRABOGUSDUMMYTOPIC"  # 'topic' must never be empty
         topic_input = topic.upper()
         topic_input = re.sub(self._puncStripRE, " ", topic_input)
 
@@ -169,11 +167,13 @@ class PatternMgr:
         input = pattern.upper()
         input = re.sub(self._puncStripRE, " ", input)
         input = re.sub(self._whitespaceRE, " ", input)
-        if that.strip() == u"": that = u"ULTRABOGUSDUMMYTHAT"  # 'that' must never be empty
+        if that.strip() == "":
+            that = "ULTRABOGUSDUMMYTHAT"  # 'that' must never be empty
         that_input = that.upper()
         that_input = re.sub(self._puncStripRE, " ", that_input)
         that_input = re.sub(self._whitespaceRE, " ", that_input)
-        if topic.strip() == u"": topic = u"ULTRABOGUSDUMMYTOPIC"  # 'topic' must never be empty
+        if topic.strip() == "":
+            topic = "ULTRABOGUSDUMMYTOPIC"  # 'topic' must never be empty
         topic_input = topic.upper()
         topic_input = re.sub(self._puncStripRE, " ", topic_input)
         topic_input = re.sub(self._whitespaceRE, " ", topic_input)
@@ -197,15 +197,14 @@ class PatternMgr:
             words = topic_input.split()
         else:
             # unknown value
-            print("starType must be in ['star', 'thatstar', 'topicstar']")
-            raise ValueError
+            raise ValueError("starType must be in ['star', 'thatstar', 'topicstar']")
 
         # compare the input string to the matched pattern, word by word.
         # At the end of this loop, if foundTheRightStar is true, start and
         # end will contain the start and end indices (in "words") of
         # the substring that the desired star matched.
         foundTheRightStar = False
-        start = end = j = numStars = k = 0
+        start = end = j = num_stars = k = 0
         for i in range(len(words)):
             # This condition is true after processing a star
             # that ISN'T the one we're looking for.
@@ -216,8 +215,8 @@ class PatternMgr:
                 break
             if not foundTheRightStar:
                 if pat_match[j] in [self._STAR, self._UNDERSCORE]:  # we got a star
-                    numStars += 1
-                    if numStars == index:
+                    num_stars += 1
+                    if num_stars == index:
                         # This is the star we care about.
                         foundTheRightStar = True
                     start = i
@@ -308,19 +307,19 @@ class PatternMgr:
                 pattern, template = self._match(suf, that_words, topic_words, root[self._UNDERSCORE])
                 if template is not None:
                     new_pattern = [self._UNDERSCORE] + pattern
-                    return (new_pattern, template)
+                    return new_pattern, template
 
         # Check first
         if root.get(first):
             pattern, template = self._match(suffix, that_words, topic_words, root[first])
-            if template is not None:
+            if template:
                 new_pattern = [first] + pattern
                 return new_pattern, template
 
         # check bot name
         if root.get(self._BOT_NAME) and first == self._bot_name:
             pattern, template = self._match(suffix, that_words, topic_words, root[self._BOT_NAME])
-            if template is not None:
+            if template:
                 new_pattern = [first] + pattern
                 return new_pattern, template
 
@@ -331,7 +330,7 @@ class PatternMgr:
             for j in range(len(suffix) + 1):
                 suf = suffix[j:]
                 pattern, template = self._match(suf, that_words, topic_words, root[self._STAR])
-                if template is not None:
+                if template :
                     new_pattern = [self._STAR] + pattern
                     return new_pattern, template
 

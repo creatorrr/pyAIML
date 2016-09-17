@@ -9,19 +9,24 @@ def sentences(s):
     try:
         s + ""
     except:
-        print("s must be a string")
-        raise TypeError
+        raise TypeError("s must be a string")
     pos = 0
     sentenceList = []
     l = len(s)
     while pos < l:
-        try: p = s.index('.', pos)
-        except: p = l+1
-        try: q = s.index('?', pos)
-        except: q = l+1
-        try: e = s.index('!', pos)
-        except: e = l+1
-        end = min(p,q,e)
+        try:
+            p = s.index('.', pos)
+        except:
+            p = l+1
+        try:
+            q = s.index('?', pos)
+        except:
+            q = l+1
+        try:
+            e = s.index('!', pos)
+        except:
+            e = l+1
+        end = min(p, q, e)
         sentenceList.append(s[pos:end].strip())
         pos = end+1
     # If no sentences were found, return a one-item list containing

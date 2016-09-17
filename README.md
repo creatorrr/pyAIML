@@ -34,7 +34,7 @@ For information on the state of development, including
 the current level of AIML 1.0.1 compliance, see the
 SUPPORTED_TAGS.txt file.
 
-Quick & dirty example (There's a run.py file, just execute that otherwise:
+Quick & dirty example (There's a run.py file, just execute that otherwise):
 
 ```python
 
