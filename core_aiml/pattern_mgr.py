@@ -52,9 +52,9 @@ class PatternMgr:
             marshal.dump(self._bot_name, out_file)
             marshal.dump(self._root, out_file)
             out_file.close()
-        except Exception, e:
+        except Exception as e:
             print("Error saving PatternMgr to file {0}:".format(filename))
-            raise Exception, e
+            raise Exception
 
     def restore(self, filename):
         """Restore a previously save()d collection of patterns."""
@@ -64,9 +64,9 @@ class PatternMgr:
             self._bot_name = marshal.load(inFile)
             self._root = marshal.load(inFile)
             inFile.close()
-        except Exception, e:
+        except Exception as e:
             print("Error restoring PatternMgr from file {0}:".format(filename))
-            raise Exception, e
+            raise Exception
 
     def add(self, (pattern, that, topic), template):
         """Add a [pattern/that/topic] tuple and its corresponding template

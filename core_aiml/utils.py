@@ -6,8 +6,11 @@ modules in the PyAIML package.
 
 def sentences(s):
     """Split the string s into a list of sentences."""
-    try: s+""
-    except: raise TypeError, "s must be a string"
+    try:
+        s + ""
+    except:
+        print("s must be a string")
+        raise TypeError
     pos = 0
     sentenceList = []
     l = len(s)
