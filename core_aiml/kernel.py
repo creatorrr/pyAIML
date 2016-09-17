@@ -240,7 +240,7 @@ class Kernel:
         for s in parser.sections():
             # Add a new WordSub instance for this section.  If one already
             # exists, delete it.
-            if self._subbers.has_key(s):
+            if self._subbers.get(s):
                 del(self._subbers[s])
             self._subbers[s] = WordSub()
             # iterate over the key,value pairs and add them to the subber
@@ -249,7 +249,7 @@ class Kernel:
 
     def _addSession(self, sessionID):
         """Create a new session with the specified ID string."""
-        if self._sessions.has_key(sessionID):
+        if self._sessions.get(sessionID, False):
             return
         # Create the session.
         self._sessions[sessionID] = {
@@ -261,8 +261,8 @@ class Kernel:
         
     def _deleteSession(self, sessionID):
         """Delete the specified session."""
-        if self._sessions.has_key(sessionID):
-            _sessions.pop(sessionID)
+        if self._sessions.get(sessionID):
+            self._sessions.pop(sessionID)
 
     def getSessionData(self, sessionID = None):
         """Return a copy of the session data dictionary for the
@@ -300,8 +300,10 @@ class Kernel:
                 sys.stderr.write(err)
                 continue
             # store the pattern/template pairs in the PatternMgr.
-            for key,tem in handler.categories.items():
-                self._brain.add(key,tem)
+            for key, tem in handler.categories.items():
+                #TODO: Put back into TUPLE
+                pattern, that, topic = key
+                self._brain.add(pattern, that, topic,tem)
             # Parsing was successful.
             if self._verboseMode:
                 print("done ({0} seconds)".format((time.clock() - start)))
@@ -352,8 +354,10 @@ class Kernel:
         
         # release the lock and return
         self._respondLock.release()
-        try: return finalResponse.encode(self._textEncoding)
-        except UnicodeError: return finalResponse
+        try:
+            return finalResponse
+        except UnicodeError:
+            return finalResponse
 
     # This version of _respond() just fetches the response for some input.
     # It does not mess with the input and output histories.  Recursive calls
@@ -489,7 +493,7 @@ class Kernel:
         
         # Case #1: test the value of a specific predicate for a
         # specific value.
-        if attr.has_key('name') and attr.has_key('value'):
+        if attr.get('name') and attr.get('value'):
             val = self.get_predicate(attr['name'], sessionID)
             if val == attr['value']:
                 for e in elem[2:]:
@@ -500,7 +504,7 @@ class Kernel:
             # name and value pair for each one.
             try:
                 name = None
-                if attr.has_key('name'):
+                if attr.get('name'):
                     name = attr['name']
                 # Get the list of <li> elemnents
                 listitems = []
@@ -543,7 +547,7 @@ class Kernel:
                     try:
                         li = listitems[-1]
                         liAttr = li[1]
-                        if not (liAttr.has_key('name') or liAttr.has_key('value')):
+                        if not (liAttr.get('name') or liAttr.get('value')):
                             response += self._processElement(li, sessionID)
                     except:
                         # listitems was empty, no attributes, missing
