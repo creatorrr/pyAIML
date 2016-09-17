@@ -6,7 +6,6 @@ import marshal
 import pprint
 import re
 import string
-import sys
 
 
 class PatternMgr:

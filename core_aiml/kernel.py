@@ -1,10 +1,5 @@
 # -*- coding: latin-1 -*-
 """This file contains the public interface to the aiml module."""
-import AimlParser
-import DefaultSubs
-import Utils
-from PatternMgr import PatternMgr
-from WordSub import WordSub
 
 from ConfigParser import ConfigParser
 import copy
@@ -17,6 +12,12 @@ import sys
 import time
 import threading
 import xml.sax
+
+from core_aiml import aiml_parser
+from core_aiml import default_subs
+from core_aiml import utils
+from core_aiml.pattern_mgr import PatternMgr
+from core_aiml.word_sub import WordSub
 
 
 class Kernel:
@@ -45,12 +46,11 @@ class Kernel:
         self.set_bot_predicate("name", "Nameless")
 
         # set up the word substitutors (subbers):
-        self._subbers = {}
-        self._subbers['gender'] = WordSub(DefaultSubs.defaultGender)
-        self._subbers['person'] = WordSub(DefaultSubs.defaultPerson)
-        self._subbers['person2'] = WordSub(DefaultSubs.defaultPerson2)
-        self._subbers['normal'] = WordSub(DefaultSubs.defaultNormal)
-        
+        self._subbers = {"gender": WordSub(default_subs.defaultGender),
+                         "person": WordSub(default_subs.defaultPerson),
+                         "person2": WordSub(default_subs.defaultPerson2),
+                         "normal": WordSub(default_subs.defaultNormal)}
+
         # set up the element processors
         self._elementProcessors = {
             "bot":          self._processBot,
@@ -86,7 +86,7 @@ class Kernel:
             "version":      self._processVersion,
         }
 
-    def bootstrap(self, brainFile = None, learnFiles = [], commands = []):
+    def bootstrap(self, brain_file=None, learn_files=[], commands=[]):
         """Prepare a Kernel object for use.
 
         If a brainFile argument is provided, the Kernel attempts to
@@ -100,26 +100,30 @@ class Kernel:
 
         """
         start = time.clock()
-        if brainFile:
-            self.load_brain(brainFile)
+        if brain_file:
+            self.load_brain(brain_file)
 
         # learnFiles might be a string, in which case it should be
         # turned into a single-element list.
-        learns = learnFiles
-        try: learns = [ learnFiles + "" ]
-        except: pass
+        learns = learn_files
+        try:
+            learns = [learn_files + ""]
+        except:
+            pass
         for file in learns:
             self.learn(file)
             
         # ditto for commands
         cmds = commands
-        try: cmds = [ commands + "" ]
-        except: pass
+        try:
+            cmds = [commands + ""]
+        except:
+            pass
         for cmd in cmds:
-            print self._respond(cmd, self._globalSessionID)
+            print(self._respond(cmd, self._globalSessionID))
             
         if self._verboseMode:
-            print "Kernel bootstrap completed in %.2f seconds" % (time.clock() - start)
+            print("Kernel bootstrap completed in {0} seconds".format((time.clock() - start)))
 
     def verbose(self, isVerbose = True):
         """Enable/disable verbose output mode."""
@@ -152,12 +156,12 @@ class Kernel:
         NOTE: the current contents of the 'brain' will be discarded!
 
         """
-        if self._verboseMode: print "Loading brain from %s..." % filename,
+        if self._verboseMode: print("Loading brain from {0}...".format(filename))
         start = time.clock()
         self._brain.restore(filename)
         if self._verboseMode:
             end = time.clock() - start
-            print "done (%d categories in %.2f seconds)" % (self._brain.num_templates(), end)
+            print("done (%d categories in {0} seconds)".format((self._brain.num_templates(), end)))
 
     def save_brain(self, filename):
         """Dump the contents of the bot's brain to a file on disk."""
@@ -165,7 +169,7 @@ class Kernel:
         start = time.clock()
         self._brain.save(filename)
         if self._verboseMode:
-            print "done (%.2f seconds)" % (time.clock() - start)
+            print("done ({0} seconds)".format(time.clock() - start))
 
     def get_predicate(self, name, sessionID = _globalSessionID):
         """Retrieve the current value of the predicate 'name' from the
@@ -175,8 +179,10 @@ class Kernel:
         string is returned.
 
         """
-        try: return self._sessions[sessionID][name]
-        except KeyError: return ""
+        try:
+            return self._sessions[sessionID][name]
+        except KeyError:
+            return ""
 
     def set_predicate(self, name, value, sessionID = _globalSessionID):
         """Set the value of the predicate 'name' in the specified
@@ -196,8 +202,10 @@ class Kernel:
         If name is not a valid bot predicate, the empty string is returned.        
 
         """
-        try: return self._botPredicates[name]
-        except KeyError: return ""
+        try:
+            return self._botPredicates[name]
+        except KeyError:
+            return ""
 
     def set_bot_predicate(self, name, value):
         """Set the value of the specified bot predicate.
@@ -279,10 +287,10 @@ class Kernel:
 
         """
         for f in glob.glob(filename):
-            if self._verboseMode: print "Loading %s..." % f,
+            if self._verboseMode: print("Loading {0}...".format(f))
             start = time.clock()
             # Load and parse the AIML file.
-            parser = AimlParser.create_parser()
+            parser = aiml_parser.create_parser()
             handler = parser.getContentHandler()
             handler.setEncoding(self._textEncoding)
             try: parser.parse(f)
@@ -295,7 +303,7 @@ class Kernel:
                 self._brain.add(key,tem)
             # Parsing was successful.
             if self._verboseMode:
-                print "done (%.2f seconds)" % (time.clock() - start)
+                print("done ({0} seconds)".format((time.clock() - start)))
 
     def respond(self, input, sessionID = _globalSessionID):
         """Return the Kernel's response to the input string."""
@@ -314,7 +322,7 @@ class Kernel:
         self._addSession(sessionID)
 
         # split the input into discrete sentences
-        sentences = Utils.sentences(input)
+        sentences = utils.sentences(input)
         finalResponse = ""
         for s in sentences:
             # Add the input to the history list before fetching the
@@ -525,7 +533,8 @@ class Kernel:
                     except:
                         # No attributes, no name/value attributes, no
                         # such predicate/session, or processing error.
-                        if self._verboseMode: print "Something amiss -- skipping listitem", li
+                        if self._verboseMode:
+                            print("Something amiss -- skipping listitem", li)
                         raise
                 if not foundMatch:
                     # Check the last element of listitems.  If it has
@@ -538,11 +547,13 @@ class Kernel:
                     except:
                         # listitems was empty, no attributes, missing
                         # name/value attributes, or processing error.
-                        if self._verboseMode: print "error in default listitem"
+                        if self._verboseMode:
+                            print("error in default listitem")
                         raise
             except:
                 # Some other catastrophic cataclysm
-                if self._verboseMode: print "catastrophic condition failure"
+                if self._verboseMode:
+                    print("catastrophic condition failure")
                 raise
         return response
         
@@ -1075,9 +1086,9 @@ class Kernel:
         return self.version()
 
 
-##################################################
-### Self-test functions follow                 ###
-##################################################
+###############################################################################
+### Self-test functions follow         WHY ARE THESE HERE!!! RESOLVE        ###
+###############################################################################
 def _testTag(kern, tag, input, outputList):
     """Tests 'tag' by feeding the Kernel 'input'.  If the result
     matches any of the strings in 'outputList', the test passes.
@@ -1085,20 +1096,20 @@ def _testTag(kern, tag, input, outputList):
     """
     global _numTests, _numPassed
     _numTests += 1
-    print "Testing <" + tag + ">:",
+    print("Testing <" + tag + ">:")
     response = kern.respond(input).decode(kern._textEncoding)
     if response in outputList:
-        print "PASSED"
+        print("PASSED")
         _numPassed += 1
         return True
     else:
-        print "FAILED (response: '%s')" % response.encode(kern._textEncoding, 'replace')
+        print("FAILED (response: '{0}')".format((response.encode(kern._textEncoding, 'replace'))))
         return False
 
 if __name__ == "__main__":
     # Run some self-tests
     k = Kernel()
-    k.bootstrap(learnFiles="self-test.aiml")
+    k.bootstrap(learn_files="self-test.aiml")
 
     global _numTests, _numPassed
     _numTests = 0
@@ -1127,7 +1138,7 @@ if __name__ == "__main__":
     there's nothing to worry about.
     """
     if not _testTag(k, 'date', 'test date', ["The date is %s" % time.asctime()]):
-        print date_warning
+        print(date_warning)
     
     _testTag(k, 'formal', 'test formal', ["Formal Test Passed"])
     _testTag(k, 'gender', 'test gender', ["He'd told her he heard that her hernia is history"])
@@ -1173,12 +1184,12 @@ if __name__ == "__main__":
     _testTag(k, 'whitespace preservation', 'test whitespace', ["Extra   Spaces\n   Rule!   (but not in here!)    But   Here   They   Do!"])
 
     # Report test results
-    print "--------------------"
+    print("--------------------")
     if _numTests == _numPassed:
-        print "%d of %d tests passed!" % (_numPassed, _numTests)
+        print("{0} of {1} tests passed!".format(_numPassed, _numTests))
     else:
-        print "%d of %d tests passed (see above for detailed errors)" % (_numPassed, _numTests)
+        print("{0} of {1} tests passed (see above for detailed errors)".format(_numPassed, _numTests))
 
     # Run an interactive interpreter
-    print "\nEntering interactive mode (ctrl-c to exit)"
-    while True: print k.respond(raw_input("> "))
+    print("\nEntering interactive mode (ctrl-c to exit)")
+    while True: print(k.respond(raw_input("> ")))

@@ -98,10 +98,10 @@ class AimlHandler(ContentHandler):
             self._whitespaceBehaviorStack.append(self._whitespaceBehaviorStack[-1])
 
     def startElementNS(self, name, qname, attr):
-        print "QNAME:", qname
+        print("QNAME:"), qname
         print "NAME:", name
         uri, elem = name
-        if (elem == "bot"): print "name:", attr.getValueByQName("name"), "a'ite?"
+        if (elem == "bot"): print("name:", attr.getValueByQName("name"), "a'ite?")
         self.startElement(elem, attr)
         pass
 

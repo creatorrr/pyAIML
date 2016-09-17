@@ -28,9 +28,9 @@ not.
 try: dict
 except: from UserDict import UserDict as dict
 
-import ConfigParser
 import re
 import string
+
 
 class WordSub(dict):
     """All-in-one multiple-string-substitution class."""
