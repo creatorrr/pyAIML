@@ -330,7 +330,7 @@ class PatternMgr:
             for j in range(len(suffix) + 1):
                 suf = suffix[j:]
                 pattern, template = self._match(suf, that_words, topic_words, root[self._STAR])
-                if template :
+                if template:
                     new_pattern = [self._STAR] + pattern
                     return new_pattern, template
 

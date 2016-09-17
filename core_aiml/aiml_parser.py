@@ -71,9 +71,9 @@ class AimlHandler(ContentHandler):
     def set_encoding(self, encoding):
         """Set the text encoding to use when encoding strings read from XML.
 
-		Defaults to 'UTF-8'.
+        Defaults to 'UTF-8'.
 
-		"""
+        """
         self._encoding = encoding
 
     def _location(self):
@@ -85,11 +85,11 @@ class AimlHandler(ContentHandler):
     def _push_whitespace_behavior(self, attr):
         """Push a new string onto the whitespaceBehaviorStack.
 
-		The string's value is taken from the "xml:space" attribute, if it exists
-		and has a legal value ("default" or "preserve").  Otherwise, the previous
-		stack element is duplicated.
+        The string's value is taken from the "xml:space" attribute, if it exists
+        and has a legal value ("default" or "preserve").  Otherwise, the previous
+        stack element is duplicated.
 
-		"""
+        """
         assert len(self._whitespace_behavior_stack) > 0, "Whitespace behavior stack should never be empty!"
         try:
             if attr["xml:space"] == "default" or attr["xml:space"] == "preserve":
@@ -156,12 +156,12 @@ class AimlHandler(ContentHandler):
         # Not a comments from @MissMaximass
         # Not sure about this namespace business yet...
         # try:
-        #	self._namespace = attr["xmlns"]
-        #	if self._version == "1.0.1" and self._namespace != "http://alicebot.org/2001/AIML-1.0.1":
-        #		raise AimlParserError, "Incorrect namespace for AIML v1.0.1 "+self._location()
+        # 	self._namespace = attr["xmlns"]
+        # 	if self._version == "1.0.1" and self._namespace != "http://alicebot.org/2001/AIML-1.0.1":
+        # 		raise AimlParserError, "Incorrect namespace for AIML v1.0.1 "+self._location()
         # except KeyError:
-        #	if self._version != "1.0":
-        #		raise AimlParserError, "Missing 'version' attribute(s) in <aiml> tag "+self._location()
+        # 	if self._version != "1.0":
+        # 		raise AimlParserError, "Missing 'version' attribute(s) in <aiml> tag "+self._location()
         elif self._state == self._STATE_outside_aiml:
             # If we're outside of an AIML element, we ignore all tags.
             return
@@ -328,10 +328,10 @@ class AimlHandler(ContentHandler):
         self.endElement(elem)
 
     def endElement(self, name):
-        """Wrapper around _endElement which catches errors in _characters()
-		and keeps going.
+        """Wrapper around _end_element which catches errors in _characters()
+        and keeps going.
 
-		"""
+        """
         if self._state == self._STATE_outside_aiml:
             # If we're outside of an AIML element, ignore all tags
             return
@@ -350,7 +350,7 @@ class AimlHandler(ContentHandler):
                 self._state = self._STATE_inside_aiml
             return
         try:
-            self._endElement(name)
+            self._end_element(name)
         except AimlParserError as msg:
             # Print the message
             sys.stderr.write("PARSE ERROR: %s\n" % msg)
@@ -359,13 +359,13 @@ class AimlHandler(ContentHandler):
             if self._state >= self._STATE_inside_category:
                 self._skip_current_category = True
 
-    def _endElement(self, name):
+    def _end_element(self, name):
         """Verify that an AIML end element is valid in the current
-		context.
+        context.
 
-		Raises an AimlParserError if an illegal end element is encountered.
+        Raises an AimlParserError if an illegal end element is encountered.
 
-		"""
+        """
         if name == "aiml":
             # </aiml> tags are only legal in the InsideAiml state
             if self._state != self._STATE_inside_aiml:
@@ -480,8 +480,8 @@ class AimlHandler(ContentHandler):
         required, optional, can_be_parent = self._valid_info[name]
         for a in required:
             if a not in attr and not self._forward_compatible_mode:
-                raise AimlParserError(("Required \"{0}\" attribute missing in <{1}> element " .format(a, name))
-                                      + self._location())
+                raise AimlParserError(("Required \"{0}\" attribute missing in <{1}> element "
+                                       .format(a, name)) + self._location())
         for a in attr:
             if a in required:
                 continue

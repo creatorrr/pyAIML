@@ -17,18 +17,18 @@ def sentences(s):
         try:
             p = s.index('.', pos)
         except:
-            p = l+1
+            p = l + 1
         try:
             q = s.index('?', pos)
         except:
-            q = l+1
+            q = l + 1
         try:
             e = s.index('!', pos)
         except:
-            e = l+1
+            e = l + 1
         end = min(p, q, e)
         sentenceList.append(s[pos:end].strip())
-        pos = end+1
+        pos = end + 1
     # If no sentences were found, return a one-item list containing
     # the entire input string.
     if len(sentenceList) == 0:

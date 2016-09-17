@@ -34,9 +34,9 @@ class WordSub(dict):
         """Convert a word to a regex object which matches the word."""
         if word != "" and word[0].isalpha() and word[-1].isalpha():
             return "\\b%s\\b" % re.escape(word)
-        else: 
+        else:
             return r"\b%s\b" % re.escape(word)
-    
+
     def _update_regex(self):
         """Build re object based on the keys of the current
         dictionary.
@@ -61,10 +61,10 @@ class WordSub(dict):
 
     def __setitem__(self, i, y):
         self._regexIsDirty = True
-        # for each entry the user adds, we actually add three entrys:
-        super(type(self), self).__setitem__(i.lower(), y.lower()) # key = value
-        super(type(self), self).__setitem__(string.capwords(i), string.capwords(y)) # Key = Value
-        super(type(self), self).__setitem__(i.upper(), y.upper()) # KEY = VALUE
+        # for each entry the user adds, we actually add three entries:
+        super(type(self), self).__setitem__(i.lower(), y.lower())  # key = value
+        super(type(self), self).__setitem__(string.capwords(i), string.capwords(y))  # Key = Value
+        super(type(self), self).__setitem__(i.upper(), y.upper())  # KEY = VALUE
 
     def sub(self, text):
         """Translate text, returns the modified text."""
@@ -77,7 +77,7 @@ if __name__ == "__main__":
     subber = WordSub()
     subber["apple"] = "banana"
     subber["orange"] = "pear"
-    subber["banana" ] = "apple"
+    subber["banana"] = "apple"
     subber["he"] = "she"
     subber["I'd"] = "I would"
 
@@ -93,4 +93,5 @@ if __name__ == "__main__":
     outStr = "She said she'd like to go with me"
     if subber.sub(inStr) == outStr:
         print("Test #2 PASSED")
-    else: print("Test #2 FAILED: '{0}'".format(subber.sub(inStr)))
+    else:
+        print("Test #2 FAILED: '{0}'".format(subber.sub(inStr)))
