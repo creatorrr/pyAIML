@@ -1,7 +1,7 @@
 # -*- coding: latin-1 -*-
 """This file contains the public interface to the aiml module."""
 
-from ConfigParser import ConfigParser
+from configparser import ConfigParser
 import copy
 import glob
 import os
@@ -165,7 +165,8 @@ class Kernel:
 
     def save_brain(self, filename):
         """Dump the contents of the bot's brain to a file on disk."""
-        if self._verboseMode: print "Saving brain to %s..." % filename,
+        if self._verboseMode:
+            print("Saving brain to {0}...".format(filename))
         start = time.clock()
         self._brain.save(filename)
         if self._verboseMode:
@@ -294,7 +295,7 @@ class Kernel:
             handler = parser.getContentHandler()
             handler.setEncoding(self._textEncoding)
             try: parser.parse(f)
-            except xml.sax.SAXParseException, msg:
+            except xml.sax.SAXParseException as msg:
                 err = "\nFATAL PARSE ERROR in file %s:\n%s\n" % (f,msg)
                 sys.stderr.write(err)
                 continue
@@ -914,7 +915,7 @@ class Kernel:
         response = ""
         try:
             out = os.popen(command)            
-        except RuntimeError, msg:
+        except RuntimeError as msg:
             if self._verboseMode:
                 err = "WARNING: RuntimeError while processing \"system\" element:\n%s\n" % msg.encode(self._textEncoding, 'replace')
                 sys.stderr.write(err)
@@ -950,8 +951,11 @@ class Kernel:
         in the text should be preserved or not.
         
         """
-        try: elem[2] + ""
-        except TypeError: raise TypeError, "Text element contents are not text"
+        try:
+            elem[2] + ""
+        except TypeError:
+            print("Text element contents are not text")
+            raise TypeError
 
         # If the the whitespace behavior for this element is "default",
         # we reduce all stretches of >1 whitespace characters to a single

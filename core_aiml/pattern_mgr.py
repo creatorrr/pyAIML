@@ -53,7 +53,7 @@ class PatternMgr:
             marshal.dump(self._root, out_file)
             out_file.close()
         except Exception, e:
-            print "Error saving PatternMgr to file %s:" % filename
+            print("Error saving PatternMgr to file {0}:".format(filename))
             raise Exception, e
 
     def restore(self, filename):
@@ -65,7 +65,7 @@ class PatternMgr:
             self._root = marshal.load(inFile)
             inFile.close()
         except Exception, e:
-            print "Error restoring PatternMgr from file %s:" % filename
+            print("Error restoring PatternMgr from file {0}:".format(filename))
             raise Exception, e
 
     def add(self, (pattern, that, topic), template):
