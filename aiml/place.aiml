@@ -2,19 +2,19 @@
 
 <aiml version="1.0">
     
-<category>
-    <pattern>I AM AT *</pattern>
-    <template>
-        <srai>PYCONUK PLACE <star/></srai>
-    </template>
-</category>
+    <category>
+        <pattern>I AM AT *</pattern>
+        <template>
+            <srai>PYCONUK PLACE <star/></srai>
+        </template>
+    </category>
 
-<category>
-    <pattern>WHERE AM I</pattern>
-    <template>
-        <srai>PYCONUK CURRENTPLACE</srai>
-    </template>
-</category>
+    <category>
+        <pattern>WHERE AM I</pattern>
+        <template>
+            <srai>PYCONUK CURRENTPLACE</srai>
+        </template>
+    </category>
 
 
 </aiml>
