@@ -4,10 +4,12 @@ import xml.sax
 import xml.sax.handler
 import sys
 
+# Python2 Compatability
 try:
     str = unicode
 except NameError:
     pass
+
 
 class AimlParserError(Exception):
     pass
@@ -236,7 +238,7 @@ class AimlHandler(ContentHandler):
             for k, v in attr.items():
                 # attrDict[k[1].encode(self._encoding)] = v.encode(self._encoding)
                 attrDict[k] = v
-            self._validate_elem_start(name, attrDict, self._version)
+            self._validate_elem_start(name, attrDict)
             # Push the current element onto the element stack.
             self._elem_stack.append([name, attrDict])
             self._push_whitespace_behavior(attr)
@@ -470,7 +472,7 @@ class AimlHandler(ContentHandler):
         "version": ([], [], False),
     }
 
-    def _validate_elem_start(self, name, attr, version):
+    def _validate_elem_start(self, name, attr):
         """Test the validity of an element starting inside a <template>
         element.
 
@@ -550,7 +552,7 @@ class AimlHandler(ContentHandler):
                                 "Unexpected default <li> element inside <condition> " + self._location())
                         else:
                             self._found_default_li_stack[-1] = True
-                    elif len(attr) == 1 and attr.get("value", False):
+                    elif len(attr) == 1 and "value" in attr:
                         pass  # this is the valid case
                     else:
                         raise AimlParserError("Invalid <li> inside single-predicate <condition> " + self._location())
@@ -569,7 +571,6 @@ class AimlHandler(ContentHandler):
                         pass  # this is the valid case
                     else:
                         raise AimlParserError("Invalid <li> inside multi-predicate <condition> " + self._location())
-        # All is well!
         return True
 
 

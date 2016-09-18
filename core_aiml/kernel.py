@@ -1,6 +1,5 @@
 # -*- coding: latin-1 -*-
 """This file contains the public interface to the aiml module."""
-from configparser import ConfigParser
 import copy
 import glob
 import os
@@ -17,6 +16,13 @@ from core_aiml import default_subs
 from core_aiml import utils
 from core_aiml.pattern_mgr import PatternMgr
 from core_aiml.word_sub import WordSub
+
+
+# Python2 Compatability
+try:
+    from configparser import ConfigParser
+except ImportError:
+    import ConfigParser
 
 
 class Kernel:
