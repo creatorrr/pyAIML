@@ -42,7 +42,7 @@ defaultGender = {
     "his": "her",
     "himself": "herself",
 
-    # feminine -> masculine    
+    # feminine -> masculine
     "she": "he",
     "her": "him",
     "hers": "his",
@@ -58,16 +58,16 @@ defaultPerson = {
     "myself": "himself",
 
     # 3rd->1st (masculine)
-    "he":"I",
-    "him":"me",
-    "his":"my",
-    "himself":"myself",
-    
+    "he": "I",
+    "him": "me",
+    "his": "my",
+    "himself": "myself",
+
     # 3rd->1st (feminine)
-    "she":"I",
-    "her":"me",
-    "hers":"mine",
-    "herself":"myself",
+    "she": "I",
+    "her": "me",
+    "hers": "mine",
+    "herself": "myself",
 }
 
 defaultPerson2 = {
@@ -84,7 +84,6 @@ defaultPerson2 = {
     "yours": "mine",
     "yourself": "myself",
 }
-
 
 # TODO: this list is far from complete
 defaultNormal = {
@@ -114,14 +113,14 @@ defaultNormal = {
     "they'll": "they will",
     "they've": "they have",
 
-    "y'all": "you all",    
+    "y'all": "you all",
 
     "can't": "can not",
     "cannot": "can not",
     "couldn't": "could not",
     "wouldn't": "would not",
     "shouldn't": "should not",
-    
+
     "isn't": "is not",
     "ain't": "is not",
     "don't": "do not",
@@ -153,4 +152,34 @@ defaultNormal = {
     "it's": "it is",
     "it'd": "it would",
     "it'll": "it will",
+
+    "how're": "how are",
+
+    # Positive
+    "great": "good",
+    "brilliant": "good",
+    "amazing": "good",
+    "awesome": "good",
+    "alright": "good",
+
+    # Yes
+    "yea": "yes",
+    "yeah": "yes",
+    "yep": "yes",
+    "yup": "yes",
+
+    # No
+    "nah": "no",
+    "nope": "no",
+    "na": "no",
+
+    # Greet
+    "hi": "hello",
+    "hiya": "hello",
+    "hey": "hello",
+    "good morning": "hello",
+    "good afternoon": "hello",
+    "good evening": "hello",
+    "sup": "hello",
+
 }

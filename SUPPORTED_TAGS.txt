@@ -49,7 +49,7 @@ The following tags are not supported:
 NOTES ON SPECIFIC TAGS:
 
 <bot name="name">
-To set the bot's name, use Kernel.setBotName("NewName").  Note that the
+To set the bot's name, use Kernel.set_bot_name("NewName").  Note that the
 name *MUST* be a single word!  Use Kernel.getBotName() to query the bot's
 name in your code.
 
@@ -90,5 +90,5 @@ with this:
 		<li value="yes">you are allowed</li>
 		<li>you are not allowed</li>
 	</condition>
-Then, use the Kernel.setPredicate() call to set the "secure" predicate to
+Then, use the Kernel.set_predicate() call to set the "secure" predicate to
 "yes" for any session that you wish to be secure.

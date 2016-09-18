@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<aiml version="1.0">
+
+    <category>
+        <pattern>PYCONUK PLACE *</pattern>
+        <template>
+            <star/>, huh? It sounds good. Are you enjoying yourself?
+            <think>
+                <set name="topic">PLACE TOPIC</set>
+                <set name="current_place"><star/></set>
+            </think>
+        </template>
+    </category>
+
+    <topic name="PLACE TOPIC">
+
+        <category>
+            <pattern>PYCONUK YES</pattern>
+            <template>
+                I don't blame you. I wish I were there... I wasn't invited :(
+                <think><set name="topic"/></think>
+            </template>
+        </category>
+
+        <category>
+            <pattern>PYCONUK NO</pattern>
+            <template>
+                That's a shame. I had high hopes for it.
+                <think><set name="topic"/></think>
+            </template>
+        </category>
+
+    </topic>
+
+
+</aiml>

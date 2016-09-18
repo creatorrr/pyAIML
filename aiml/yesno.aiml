@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<aiml version="1.0">
+
+    <category>
+        <pattern>NO</pattern>
+        <template>
+            <srai>PYCONUK NO</srai>
+        </template>
+    </category>
+
+    <category>
+        <pattern>YES</pattern>
+        <template>
+            <srai>PYCONUK YES</srai>
+        </template>
+    </category>
+
+</aiml>

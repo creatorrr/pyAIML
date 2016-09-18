@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<aiml version="1.0">
+
+    <category>
+        <pattern>HELLO</pattern>
+        <template>
+            <srai>PYCONUK HELLO</srai>
+        </template>
+    </category>
+
+    <category>
+        <pattern>_ GOOD *</pattern>
+        <template>
+            <srai>PYCONUK DOINGWELL</srai>
+        </template>
+    </category>
+
+    <category>
+        <pattern>_ GOOD</pattern>
+        <template>
+            <srai>PYCONUK DOINGWELL</srai>
+        </template>
+    </category>
+
+    <category>
+        <pattern>MY NAME IS *</pattern>
+        <template>
+            <srai>PYCONUK GREET <star/></srai>
+        </template>
+    </category>
+
+    <category>
+        <pattern>I AM *</pattern>
+        <template>
+            <srai>PYCONUK GREET <star/></srai>
+        </template>
+    </category>
+
+    <category>
+        <pattern>HOW ARE YOU</pattern>
+        <template>
+            <srai>PYCONUK HOWAREYOU</srai>
+        </template>
+    </category>
+
+
+</aiml>

@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<aiml version="1.0">
+
+<category>
+    <pattern>PYCONUK HELLO</pattern>
+    <template>
+        <random>
+            <li>Hi.</li>
+            <li>Hello!</li>
+            <li>Hello, how are you?</li>
+        </random>
+    </template>
+</category>
+
+<category>
+    <pattern>PYCONUK DOINGWELL</pattern>
+    <template>
+        <random>
+            <li>Glad to hear it.</li>
+            <li>Awesome!</li>
+        </random>
+    </template>
+</category>
+
+<category>
+    <pattern>PYCONUK HOWAREYOU</pattern>
+    <template>
+        <random>
+            <li>I'm brilliant, thanks. Yourself?</li>
+            <li>All is good, ta. You?</li>
+        </random>
+    </template>
+</category>
+
+<category>
+    <pattern>PYCONUK GREET *</pattern>
+    <template>
+        Nice to meet you, <star/>.
+    </template>
+</category>
+
+<category>
+    <pattern>PYCONUK YES</pattern>
+    <template>
+        Yes, what?
+    </template>
+</category>
+
+<category>
+    <pattern>PYCONUK NO</pattern>
+    <template>
+        No?
+    </template>
+</category>
+
+<category>
+    <pattern>PYCONUK CURRENTPLACE</pattern>
+    <template>
+        <condition name="current_place">
+            <li value="">
+                Enlighten me.
+            </li>
+            <li>
+                <get name="current_place"/>
+            </li>
+        </condition>
+    </template>
+</category>
+
+<category>
+    <pattern>*</pattern>
+    <template>
+        I dunno *shrug*
+    </template>
+</category>
+
+
+</aiml>
